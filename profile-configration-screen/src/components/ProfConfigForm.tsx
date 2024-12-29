@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";// The useForm hook is used for managing the form state, validation, and submission.
 import "admin-lte/dist/css/adminlte.min.css";
 
 const JSONFieldAttributesForm = () => {
-  const { handleSubmit, control, watch } = useForm({
+  const { handleSubmit, control, watch } = useForm({ // Handles form submission. Connects individual inputs to React Hook Form.
+    // Tracks field values in real-time.The defaultValues object initializes the form fields with their default values.
     defaultValues: {
       fieldName: "",
       description: "",
@@ -20,21 +21,24 @@ const JSONFieldAttributesForm = () => {
     },
   });
 
-  const datatype = watch("datatype");
-  const [enumList, setEnumList] = useState([{ id: Date.now(), value: "", type: "Int" }]);
-  const [formData, setFormData] = useState(null);
+  const datatype = watch("datatype"); //  Tracks the selected datatype (e.g., Int, String, etc.).
+  const [enumList, setEnumList] = useState([{ id: Date.now(), value: "", type: "Int" }]); // Tracks the list of enums for the "Enum" datatype.
+  const [formData, setFormData] = useState(null); //  Stores the submitted form data to display in the UI.
 
   // Add Enum Field
-  const addEnum = () => {
+  const addEnum = () => { // Adds a new enum to the list by appending it to the enumList state.
     setEnumList([...enumList, { id: Date.now(), value: "", type: "Int" }]);
+    // Enum, short for enumeration, represents a set of predefined values that a variable can hold.
+    //  These values are typically distinct and limited, providing a way to restrict input to a specific set of valid options.
   };
 
   // Remove Enum Field
-  const removeEnum = (id: number) => {
+  const removeEnum = (id: number) => { // Removes an enum from the list using its unique id.
+
     setEnumList(enumList.filter((item) => item.id !== id));
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: any) => { // On submission, the form data is logged and displayed in a success message.
     console.log("Form Data:", data);
     setFormData(data);
   };
@@ -51,7 +55,7 @@ const JSONFieldAttributesForm = () => {
         <Controller
           name="fieldName"
           control={control}
-          rules={{ required: "Field name is required" }}
+          rules={{ required: "Field name is required" }} // Required field with validation (rules) using React Hook Form.
           render={({ field, fieldState }) => (
             <>
               <input
@@ -201,9 +205,12 @@ const JSONFieldAttributesForm = () => {
             />
           </div>
         )}
-
-        {datatype === "Enum" && (
-          <div className="mt-3">
+               
+        {datatype === "Enum" && (  //Enum, short for enumeration, represents a set of predefined values that a variable can hold. 
+        // These values are typically distinct and limited, providing a way to restrict input to a specific set of valid options.
+          // For datatype === "Enum", the user can manage a list of enum values:
+        //Users can add/edit/remove enum values using addEnum and removeEnum.
+          <div className="mt-3"> 
             <label className="form-label">Enum Values *</label>
             {enumList.map((item, index) => (
               <div key={item.id} className="d-flex mb-2">
@@ -275,7 +282,7 @@ const JSONFieldAttributesForm = () => {
           }}
         >
           <h4>Configuration Result</h4>
-          <pre>{JSON.stringify(formData, null, 2)}</pre>
+          <pre>{JSON.stringify(formData, null, 2)}</pre> 
         </div>
       )}
     </div>
